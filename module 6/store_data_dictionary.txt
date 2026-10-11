@@ -1,0 +1,18 @@
+store_orders.csv + store_customers.csv - Data Dictionary (CS 82A, Module 6)
+Fictional store database tables for the SQL lab.
+
+store_orders.csv (200 rows):
+  order_id     - unique order number (integer, primary key)
+  customer_id  - links to store_customers.customer_id (join key);
+                 NOTE: 5 orders reference customer_ids that do not exist
+                 in the customers table (orphan orders) - on purpose
+  product      - item name (text)
+  category     - electronics / office / furniture / snacks
+  amount       - order total in dollars (top order is $499.00)
+  order_date   - YYYY-MM-DD
+
+store_customers.csv (40 rows):
+  customer_id  - unique customer number (integer, primary key)
+  name         - fictional customer name
+  city         - customer city
+  signup_year  - year the customer signed up
