@@ -1,0 +1,55 @@
+# Formula 1 Pit Stop Duration & Race Outcome Analysis
+
+## 1. Problem Statement
+**Research Question:** *Since pit stop duration has changed by huge amounts over the 75+ years of the Formula 1 world championship, how much does pit stop duration actually impact a driver's final race outcome?*
+
+While Formula 1 pit stop technology and crew efficiencies have evolved dramatically over the decades, this project investigates whether cumulative pit stop time is a dominant predictor of a driver's final race finishing position, or if car performance and race pace overshadow minor pit lane delays.
+
+---
+
+## 2. Data Source & License
+* **Dataset:** [Formula 1 World Championship (1950–2020+) on Kaggle](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020) (maintained by Rohan Rao).
+* **Core Tables Used:** 
+  * `pit_stops.csv`: Contains individual stop durations, lap numbers, and timing data.
+  * `results.csv`: Contains final race classification and finishing positions (`positionOrder`).
+  * `races.csv`: Contains race metadata, circuit names, and calendar years.
+* **License:** Kaggle datasets of this nature are typically shared under open data/Creative Commons licenses for educational and research purposes.
+
+---
+
+## 3. Data Cleaning & Preparation Log
+1. **Filtering by Availability:** Official, granular pit stop duration data is consistently tracked from the 2012 season onward. Analysis was scoped to the 2011–present modern era.
+2. **Type Casting & Error Handling:** Converted pit stop duration fields to numeric values, coercing string anomalies and missing values (`\N`) into `NaN`s, and dropping invalid rows.
+3. **Aggregation:** Grouped individual stop logs by `raceId` and `driverId` to calculate total cumulative pit stop time, average stop duration, and total number of stops per driver per race.
+4. **Relational Merging:** Joined `pit_stops`, `results`, and `races` dataframes using inner and left joins on `raceId` and `driverId` to align pit metrics with final finishing positions (`positionOrder`).
+
+---
+
+## 4. Findings & Visualizations
+
+### Overall Statistical Correlation
+* The calculated correlation coefficient between total pit stop duration and final finishing position is **$r \approx 0.11$**, indicating a very weak overall linear relationship when evaluating all drivers across all races globally.
+
+### The "Wedge" Distribution Effect (Scatter Plot & Trend Line)
+* **Visual Insight:** A scatter plot of Total Pit Stop Duration vs. Final Finishing Position reveals a distinct triangular wedge distribution.
+* Top-tier cars (finishing positions 1–5) can occasionally absorb a slow or delayed pit stop because their raw pace allows them to recover positions.
+* Conversely, backmarker and midfield cars face a strict upper bound—long pit stops heavily penalize lower-performing cars, compounding their lack of raw pace.
+
+### Case Study: The 2022 United States Grand Prix (COTA)
+To observe this dynamic in a single race:
+* **Field Average:** Individual pit stop durations averaged **25.92 seconds**.
+* **The Winner's Anomaly:** Max Verstappen (Winner, Position 1) recorded an average stop time of **28.06 seconds** across two stops (totaling **56.12 seconds**), losing nearly 8 seconds in the pit lane compared to his closest podium rivals.
+* **Conclusion:** Despite the slower pit performance, superior car pace allowed Verstappen to recover, overtake rivals, and win the race by 5 seconds, perfectly mirroring our broader data trend.
+
+---
+
+## 5. Limitations
+* **Era Constraints:** Granular pit stop duration logs are unavailable prior to 2012, restricting historical trend analysis of the 75+ year span.
+* **Confounding Variables:** The dataset does not explicitly control for race incidents such as safety cars, red flags, unexpected mechanical damage repairs, or weather changes, which can drastically skew individual pit durations and finishing orders.
+
+---
+
+## 6. How to Run
+1. **Prerequisites:** Ensure you have Python installed along with the required libraries:
+   ```bash
+   pip install pandas numpy matplotlib seaborn
