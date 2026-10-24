@@ -41,6 +41,11 @@ To observe this dynamic in a single race:
 * **The Winner's Anomaly:** Max Verstappen (Winner, Position 1) recorded an average stop time of **28.06 seconds** across two stops (totaling **56.12 seconds**), losing nearly 8 seconds in the pit lane compared to his closest podium rivals.
 * **Conclusion:** Despite the slower pit performance, superior car pace allowed Verstappen to recover, overtake rivals, and win the race by 5 seconds, perfectly mirroring our broader data trend.
 
+### Advanced Feature Engineering: Net Positions Gained vs. Pit Duration
+To strip away the baseline performance bias of starting grid positions, we engineered a **Net Positions Gained** feature (`grid position - final finishing position`). 
+* **The Result:** The resulting correlation coefficient dropped to near-zero ($r \approx -0.011$), and the regression trend line remained perfectly flat. 
+* **Takeaway:** This confirms that total pit stop duration does not systematically dictate whether a driver moves forward or backward from their starting grid slot across the field as a whole.
+
 ---
 
 ## 5. Limitations
